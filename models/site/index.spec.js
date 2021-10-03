@@ -14,7 +14,7 @@ describe('makeSite', () => {
   })
 
   it('throws error if state not AUS', async() => {
-    let errorMessage = 'State must be in Australia.'
+    let errorMessage = 'NZ state must be in Australia.'
     expect(() => {
       makeSite({
         name: '123 Smith Street',

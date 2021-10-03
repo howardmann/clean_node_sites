@@ -27,12 +27,13 @@ let makeSite = function(siteInfo) {
         'SA',
         'WA',
         'ACT',
-        'TAS'
+        'TAS',
+        'NT'
       ]
 
       let validState = statesAUS.includes(state.toUpperCase())
       if (!validState) {
-        throw new Error('State must be in Australia.')
+        throw new Error(`${state} state must be in Australia.`)
       }      
     }
 

@@ -2,6 +2,7 @@ let SITES = require('../../../db/memory/sites') // DB
 let GROUPS = require('../../../db/memory/groups') // DB
 let GROUPS_SITES = require('../../../db/memory/groups_sites') // DB
 let serialize = require('./serializer') // serializer custom to db
+let makeSite = require('../../../models/site/index') // site model
 
 let listSites = () => {
   return Promise.resolve(serialize(SITES))
@@ -18,10 +19,11 @@ let findSitesBy = (prop, val) => {
 }
 
 let addSite = (siteInfo) => {
+  let site = makeSite(siteInfo) 
   let newSite = {
     id: SITES.length + 1,
-    name: siteInfo.name,
-    state: siteInfo.state
+    name: site.name,
+    state: site.state
   }
   SITES.push(newSite)
   return findSite(newSite.id)
