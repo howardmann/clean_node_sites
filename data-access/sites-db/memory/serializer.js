@@ -1,7 +1,8 @@
 const _serializeSingle = (site) => {
   return {
     'id': site.id,
-    'name': site.name
+    'name': site.name,
+    'state': site.state
   };
 };
 

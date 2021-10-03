@@ -36,22 +36,25 @@ describe('sitesDb', () => {
   })
 
   it('findSitesBy(prop, val) finds all sites by property', async () => {
-    let sites = await sitesDb.findSitesBy('name', 'Hyperdome')
-    let input = sites.map(el => el.name)
-    let actual = ['Hyperdome']
+    let sites = await sitesDb.findSitesBy('state', 'NSW')    
+    let castle_towers = sites.filter(el => el.name === 'Castle Towers')[0]
+    let {id, ...input} = castle_towers
+    let actual = {name: 'Castle Towers', state: 'NSW'}
     expect(input).to.eql(actual)
   })
 
   it('addSite(siteInfo) inserts a site', async () => {
     let site = {
-      name: '123 New Site'
+      name: '123 New Site',
+      state: 'NSW'
     }
     let newSite = await sitesDb.addSite(site)
     
     let {id,...input} = newSite
     
     let actual = {
-      name: '123 New Site'
+      name: '123 New Site',
+      state: 'NSW'
     }
     expect(input).to.eql(actual)
   })
@@ -59,7 +62,7 @@ describe('sitesDb', () => {
   it('listSitesWithGroups() lists sites with groups name', async () => {
     let sites = await sitesDb.listSitesWithGroups()
     let {id, ...input} = sites.filter(el => el.name === 'Robina Town Centre')[0]
-    let actual = {name: 'Robina Town Centre', groups: ['QIC']}
+    let actual = {name: 'Robina Town Centre', state:'QLD', groups: ['QIC']}
     expect(input).to.deep.eql(actual)
   })
 

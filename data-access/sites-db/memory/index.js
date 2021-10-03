@@ -13,14 +13,15 @@ let findSite = (id) => {
 }
 
 let findSitesBy = (prop, val) => {
-  let site = SITES.filter(site => site[prop] == val)
-  return Promise.resolve(serialize(site))
+  let sites = SITES.filter(site => site[prop] === val)
+  return Promise.resolve(serialize(sites))
 }
 
 let addSite = (siteInfo) => {
   let newSite = {
     id: SITES.length + 1,
     name: siteInfo.name,
+    state: siteInfo.state
   }
   SITES.push(newSite)
   return findSite(newSite.id)
