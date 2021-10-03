@@ -41,13 +41,23 @@ describe('makeSite', () => {
     }).to.throw(errorMessage)
   })
 
-  it('must have name', async () => {
+  it('normalises upperCase site name', async () => {
     let site = makeSite({
-      name: '123 Smith Street',
-      state: 'nsw'
+      name: '123 smith street',
+      state: 'NSW'
     })
     let input = site.name
     let actual = '123 Smith Street'
+    expect(input).to.eql(actual)
+  })
+
+  it('normalises capitalizes state', async () => {
+    let site = makeSite({
+      name: '123 smith street',
+      state: 'nsw'
+    })
+    let input = site.state
+    let actual = 'NSW'
     expect(input).to.eql(actual)
   })
 
