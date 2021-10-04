@@ -18,13 +18,21 @@ let findSitesBy = (prop, val) => {
   return Promise.resolve(serialize(sites))
 }
 
-let addSite = (siteInfo) => {
+let addSite = async (siteInfo) => {
   let site = makeSite(siteInfo) 
   let newSite = {
     id: SITES.length + 1,
     name: site.name,
     state: site.state
   }
+
+  // check site name unique
+  let sitesNameArr = await listSites().then(result => result.map(el => el.name))
+  let checkSiteNameUnique = sitesNameArr.includes(newSite.name) ? false : true
+  if (!checkSiteNameUnique) {
+    throw new Error(`${newSite.name} site name must be unique.`)
+  }
+
   SITES.push(newSite)
   return findSite(newSite.id)
 }
