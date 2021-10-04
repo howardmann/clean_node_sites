@@ -24,7 +24,7 @@ describe('makeSite', () => {
   })
 
   it('throws error if name missing', async() => {
-    let errorMessage = 'name can not be null or undefined.'
+    let errorMessage = 'name cannot be null or undefined.'
     expect(() => {
       makeSite({
         state: 'NZ'
@@ -33,7 +33,7 @@ describe('makeSite', () => {
   })
 
   it('throws error if state missing', async() => {
-    let errorMessage = 'state can not be null or undefined.'
+    let errorMessage = 'state cannot be null or undefined.'
     expect(() => {
       makeSite({
         name: '123 Magic Street'

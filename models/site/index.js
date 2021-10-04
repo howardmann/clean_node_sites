@@ -1,11 +1,4 @@
-// Helper throw error message if value missing
-let requiredParam = (param, property) => {
-  if (param === undefined || param === null) {
-    throw new Error (`${property} can not be null or undefined.`)
-  }
-  return param
-}
-
+let {requiredParam, upperCase} = require('../../helpers')
 
 let makeSite = function(siteInfo) {
 
@@ -43,9 +36,6 @@ let makeSite = function(siteInfo) {
   }
 
   let normalize = ({name,state}) => {
-    let capitalizeWord = (word) => word.charAt(0).toUpperCase() + word.slice(1)
-    let upperCase = (string) => string.split(' ').map(word => capitalizeWord(word)).join(' ')
-
     return {
       name: upperCase(name),
       state: state.toUpperCase()
