@@ -4,7 +4,7 @@ let makeSite = require('./index')
 
 describe('makeSite', () => {
   it('throws error if name less than 2 characters', async() => {
-    let errorMessage = 'Site name must be at least 2 characters long.'
+    let errorMessage = 'Name must be at least 2 characters long.'
     expect(() => {
       makeSite({
         name: 'a',
@@ -14,7 +14,7 @@ describe('makeSite', () => {
   })
 
   it('throws error if state not AUS', async() => {
-    let errorMessage = 'NZ state must be in Australia.'
+    let errorMessage = 'State must be in Australia.'
     expect(() => {
       makeSite({
         name: '123 Smith Street',

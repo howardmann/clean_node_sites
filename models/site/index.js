@@ -1,39 +1,7 @@
-let {requiredParam, upperCase} = require('../../helpers')
+let {upperCase} = require('../../helpers')
+let {validateMakeSite} = require('../validator/site')
 
 let makeSite = function(siteInfo) {
-
-  let validate = ({name, state}) => {
-    requiredParam(name, 'name')
-    requiredParam(state, 'state')
-    
-    let validateName = (name) => {            
-      if (name.length < 2) {
-        throw new Error('Site name must be at least 2 characters long.')
-      }
-    }
-
-    let validateState = (state) => {      
-      let statesAUS = [
-        'NSW',
-        'VIC',
-        'QLD',
-        'SA',
-        'WA',
-        'ACT',
-        'TAS',
-        'NT'
-      ]
-
-      let validState = statesAUS.includes(state.toUpperCase())
-      if (!validState) {
-        throw new Error(`${state} state must be in Australia.`)
-      }      
-    }
-
-    validateName(name)
-    validateState(state)
-    return ({name, state})
-  }
 
   let normalize = ({name,state}) => {
     return {
@@ -42,7 +10,7 @@ let makeSite = function(siteInfo) {
     }
   }
 
-  const validSite = validate(siteInfo)
+  const validSite = validateMakeSite(siteInfo)
   const normalSite = normalize(validSite)
   return normalSite
 }
