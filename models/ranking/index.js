@@ -22,27 +22,22 @@ let makeRanking = (rankingInfo) => {
       }
     }
 
-
     validatePosition(ranking)
     validateMonthEnd(month_end)
     return ({ranking, site_id, group_id, month_end})
   }
 
-  let normalize = ({ranking, site_id, group_id, month_end}) => {
+  let normalize = (rankingInfo) => {
+    let {ranking, ...rankingOpts} = rankingInfo
+    
     let rankings = [
       {pos: 1, word: 'First'},
       {pos: 2, word: 'Second'},
       {pos: 3, word: 'Third'}
     ]
 
-    let word = rankings.filter(el => el.pos === ranking)[0].word
-
-    return {
-      ranking: word,
-      site_id,
-      group_id,
-      month_end
-    }
+    let word = rankings.find(el => el.pos === ranking).word
+    return {ranking: word, ...rankingOpts}
   }
 
   const validRanking = validate(rankingInfo)
