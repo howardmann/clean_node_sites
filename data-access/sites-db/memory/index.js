@@ -1,6 +1,5 @@
 let SITES = require('../../../db/memory/sites') // DB
-let GROUPS = require('../../../db/memory/groups') // DB
-let GROUPS_SITES = require('../../../db/memory/groups_sites') // DB
+let groupsDb = require('../../groups-db')
 let serialize = require('./serializer') // serializer custom to db
 let makeSite = require('../../../models/site/index') // site model
 
@@ -40,22 +39,17 @@ let addSite = async (siteInfo) => {
 
 let listSitesWithGroups = async () => {
   // list all sites
-  let sites = await Promise.resolve(serialize(SITES))
-  // list all groups_sites
-  let groups_sites = await Promise.resolve(GROUPS_SITES)
-  // list all GROUPS
-  let groups = await Promise.resolve(GROUPS)
+  let sites = await listSites()
 
-  // map each each site_id
-  let result = sites.map(site => {    
-    let site_id = site.id  
-    // return group_id of groups_sites match site_id
-    let groups_sites_arr = groups_sites.filter(el => el['site_id'] === site_id)
-    let group_name_arr = groups_sites_arr.map(el => groups.filter(group => group['id'] === el['group_id'])[0]).map(el => el['name'])
-    
-    // returnne wobject with group_names as array
+  // map through all sites and add group name
+  let result = await Promise.all(sites.map(async site => {
+    let site_id = site.id
+    let groups = await groupsDb.findGroupsbySite(site_id)
+    let group_name_arr = groups.map(el => el.name)
+
     return {...site, groups: group_name_arr}
-  })
+  }))
+  
   return result
 }
 
