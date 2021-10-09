@@ -5,32 +5,32 @@ let makeRanking = require('./index')
 let valid_ranking = {
   site_id: 1,
   group_id: 1,
-  ranking: 2,
+  rank: 2,
   month_end: '30/09/2021'
 }
 
 describe('makeRanking', () => {
   describe('ranking', () => {
     it('throws error if ranking missing', async () => {
-      let errorMessage = 'ranking cannot be null or undefined.'
+      let errorMessage = 'rank cannot be null or undefined.'
       expect(() => {
-        let {ranking, ...validInfo} = valid_ranking
-        makeRanking({ranking: null, ...validInfo})
+        let {rank, ...validInfo} = valid_ranking
+        makeRanking({rank: null, ...validInfo})
       }).to.throw(errorMessage)
     })
 
     it('throws error if ranking is not one of First Second or Third', async () => {
-      let errorMessage = 'ranking must be either 1,2 or 3.'
+      let errorMessage = 'rank must be either 1,2 or 3.'
       expect(() => {
-        let {ranking, ...validInfo} = valid_ranking
-        makeRanking({ranking: 4, ...validInfo})
+        let {rank, ...validInfo} = valid_ranking
+        makeRanking({rank: 4, ...validInfo})
       }).to.throw(errorMessage)
     })
 
     it('adds ranking', () => {
-      let {ranking, ...validInfo} = valid_ranking
-      let newRank = makeRanking({ranking: 1, ...validInfo})
-      let input = newRank.ranking
+      let {rank, ...validInfo} = valid_ranking
+      let newRank = makeRanking({rank: 1, ...validInfo})
+      let input = newRank.rank
       let actual = 'First'
       expect(input).to.eql(actual)
     })

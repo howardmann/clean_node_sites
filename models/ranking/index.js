@@ -2,16 +2,17 @@ let {requiredParam} = require('../../helpers')
 
 
 let makeRanking = (rankingInfo) => {  
-  let validate = ({ranking, site_id, group_id, month_end}) => {
-    requiredParam(ranking, 'ranking')
+  
+  let validate = ({rank, site_id, group_id, month_end}) => {
+    requiredParam(rank, 'rank')
     requiredParam(site_id, 'site_id')
     requiredParam(group_id, 'group_id')
     requiredParam(month_end, 'month_end')
 
-    let validatePosition = (ranking) => {
-      let validPos = [1,2,3].includes(ranking)
+    let validatePosition = (rank) => {
+      let validPos = [1,2,3].includes(rank)
       if(!validPos) {
-        throw new Error('ranking must be either 1,2 or 3.')
+        throw new Error('rank must be either 1,2 or 3.')
       }    
     }
 
@@ -22,13 +23,13 @@ let makeRanking = (rankingInfo) => {
       }
     }
 
-    validatePosition(ranking)
+    validatePosition(rank)
     validateMonthEnd(month_end)
-    return ({ranking, site_id, group_id, month_end})
+    return ({rank, site_id, group_id, month_end})
   }
 
   let normalize = (rankingInfo) => {
-    let {ranking, ...rankingOpts} = rankingInfo
+    let {rank, ...rankingOpts} = rankingInfo
     
     let rankings = [
       {pos: 1, word: 'First'},
@@ -36,8 +37,8 @@ let makeRanking = (rankingInfo) => {
       {pos: 3, word: 'Third'}
     ]
 
-    let word = rankings.find(el => el.pos === ranking).word
-    return {ranking: word, ...rankingOpts}
+    let word = rankings.find(el => el.pos === rank).word
+    return {rank: word, ...rankingOpts}
   }
 
   const validRanking = validate(rankingInfo)

@@ -10,9 +10,7 @@ let listRankings = () => {
 }
 
 let addRanking = async (rankingInfo) => {
-  let {site_id, group_id} = rankingInfo
-
-  let newRanking = makeRanking(rankingInfo)
+  let {site_id, group_id} = rankingInfo  
 
   let validateSite = async (site_id) => {
     let site = await sitesDb.findSite(site_id)
@@ -33,18 +31,30 @@ let addRanking = async (rankingInfo) => {
     let groups = await groupsDb.findGroupsbySite(site_id)
     let groupMatch = groups.filter(el => el.id === group_id).length > 0 ? true : false
     if (!groupMatch) {
-      throw new Error('site_id must belong to group_id.')
+      throw new Error(`site_id must belong to group_id.`)
     }
   }
 
   await validateSite(site_id)
   await validateGroup(group_id)
   await validateSiteGroupMatch({site_id, group_id})
+  
+  let newRankingInfo = makeRanking(rankingInfo)
+  let newRanking = {id: RANKINGS.length + 1, ...newRankingInfo}  
+  
   RANKINGS.push(newRanking)
+  
+  
   return Promise.resolve(newRanking)
+}
+
+let dropAll = async () => {
+  RANKINGS = []
+  return listRankings() 
 }
 
 module.exports = {
   listRankings,
-  addRanking
+  addRanking,
+  dropAll
 }

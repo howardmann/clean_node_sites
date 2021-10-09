@@ -1,11 +1,13 @@
 let {
   listRankings,
-  addRanking
+  addRanking,
+  dropAll
 } = require('./memory/index') // switch out db as required
 
 let rankingsDb = {
   listRankings,
-  addRanking
+  addRanking,
+  dropAll
 }
 
 module.exports = rankingsDb

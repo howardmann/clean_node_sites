@@ -3,22 +3,51 @@ let expect = chai.expect;
 let rankingsDb = require('./index')
 let sitesDb = require('../sites-db')
 let groupsDb = require('../groups-db')
+let RANKINGS = require('../../db/memory/rankings')
 
 let validRankingInfo = {
   site_id: null,
   group_id: null,
-  ranking: 1,
+  rank: 1,
   month_end: '30/09/2021'
 }
 
+
 describe('rankingsDb', () => {
   beforeEach(async () => {
+    await rankingsDb.dropAll();
+    
+    await Promise.all(RANKINGS.map(async el => {
+      let rankings = [
+        {pos: 1, word: 'First'},
+        {pos: 2, word: 'Second'},
+        {pos: 3, word: 'Third'}
+      ]
+      let {rank, group_id, site_id, month_end} = el
+      let rankPos = rankings.find(el => el.word === rank).pos
+      
+      let newRanking = {rank: rankPos, group_id, site_id, month_end}
+      let result = await rankingsDb.addRanking(newRanking)
+      
+      return result
+    }))
+    
     let site_name = '55 King Street'
     let site = await sitesDb.findSitesBy('name', site_name)
     validRankingInfo.site_id = site[0].id
     let site_groups = await groupsDb.findGroupsbySite(validRankingInfo.site_id)
     validRankingInfo.group_id = site_groups[0].id
+    
   })
+
+  it('dropAll() drops database', async () => {
+    await rankingsDb.dropAll()
+    let rankings = await rankingsDb.listRankings()
+    let input = rankings.length
+    let actual = 0
+    expect(input).to.equal(actual)
+  })
+
 
   it('listRankings() lists rankings', async () => {
     let input = await rankingsDb.listRankings()
@@ -33,8 +62,8 @@ describe('rankingsDb', () => {
 
       let newRanking = await rankingsDb.addRanking(validRankingInfo)
       let {id, ...input} = newRanking
-      let {ranking, ...validOpts} = validRankingInfo
-      let actual = {ranking: 'First', ...validOpts}
+      let {rank, ...validOpts} = validRankingInfo
+      let actual = {rank: 'First', ...validOpts}
       expect(input).to.eql(actual)
       
       // confirm it increases the rankings count

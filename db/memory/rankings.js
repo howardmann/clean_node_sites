@@ -1,28 +1,28 @@
 const rankings = [{
     "id": 1,
-    "group_id": 1,
+    "group_id": 2,
     "month_end": "30/09/2021",
     "rank": "First",
     "site_id": 5,
-    "temp_group_name": "GPT",
+    "temp_group_name": "QIC",
     "temp_site_name": "Castle Towers"
   },
   {
     "id": 2,
-    "group_id": 1,
+    "group_id": 2,
     "month_end": "30/09/2021",
     "rank": "Second",
     "site_id": 6,
-    "temp_group_name": "GPT",
+    "temp_group_name": "QIC",
     "temp_site_name": "Hyperdome"
   },
   {
     "id": 3,
-    "group_id": 1,
+    "group_id": 2,
     "month_end": "30/09/2021",
     "rank": "Third",
     "site_id": 7,
-    "temp_group_name": "GPT",
+    "temp_group_name": "QIC",
     "temp_site_name": "Bathurst City Central"
   },
   {
