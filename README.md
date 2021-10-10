@@ -1,7 +1,8 @@
 ## Clean Node API
 An illustrative node.js API attempting to apply clean principles to separate business logic with technologies.
 
-Application Structure
+### Application Structure
+Overview of application structure
 ```
 ============= INNER LAYER =====================================================================
 validators                // validators of payloads
@@ -52,5 +53,6 @@ drivers
 
 ```
 
-DB Schema
+### DB Schema
+Overview of database schema. Follows RDBMS
 ![db overview](./assets/db_diagram_sites.png)
