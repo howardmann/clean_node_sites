@@ -1,7 +1,10 @@
 let {
   listGroups,
   findGroupsbySite
-} = require('./memory/index') // switch out db as required
+} 
+// switch out db as required
+// = require('./memory') 
+= require('./pg') 
 
 let groupsDb = {
   listGroups,
