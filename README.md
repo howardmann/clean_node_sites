@@ -27,7 +27,11 @@ db                        // db connection and adapter
     L groups.js           // see DB schema diagram
     L groups_sites.js     // see DB schema diagram
     L rankings.js         // see DB schema diagram
-  L pg                    // TODO
+  L pg                    // db connection for pg
+    L migrations          // knex migrations folder
+    L seeds               // knex seed files (import from memory)
+      L development
+    L knex.js             // knex config and environment boilerplate setup
 
 ============= MIDDLE LAYER =====================================================================
 data-access               // think of it as our internal ORM (logic for our use-cases lies here)
@@ -37,7 +41,7 @@ data-access               // think of it as our internal ORM (logic for our use-
     L memory              // in memory
       L index.js          // expose the memory implementation
       L serializer.js     // serializes to DB specific properties
-    L pg                  // TODO: Illustrative
+    L pg                  // pg implementation of sites-db API, must pass same tests as memory db      
   L groups-db             // follows site structure
   L rankings-db           // follows site structure
 
