@@ -2,15 +2,26 @@ let chai = require('chai');
 let expect = chai.expect;
 let sitesDb = require('./index')
 let SITES = require('../../db/memory/sites') // csv seeder
+let GROUPS_SITES = require('../../db/memory/groups_sites')
+let groupsSitesDb = require('../groups_sites-db')
 
 
 describe('sitesDb', () => {
   beforeEach(async () => {
+    // Seed sites
     await sitesDb.dropAll();
     // when using async await in map must wrap in Promise.all
     await Promise.all(SITES.map(async el => {
       let newSite = await sitesDb.addSite(el)
       return newSite
+    }))
+
+    // Seed groups_sites relations
+    await groupsSitesDb.dropAll();
+    // when using async await in map must wrap in Promise.all
+    await Promise.all(GROUPS_SITES.map(async el => {
+      let newGroupSite = await groupsSitesDb.addGroupSite(el)
+      return newGroupSite
     }))
   })
 

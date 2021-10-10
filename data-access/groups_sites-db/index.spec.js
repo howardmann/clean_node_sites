@@ -4,7 +4,7 @@ let groupsSitesDb = require('./index')
 let GROUPS_SITES = require('../../db/memory/groups_sites') // csv seeder
 
 
-describe.only('groupsSitesDb', () => {
+describe('groupsSitesDb', () => {
   beforeEach(async () => {
     await groupsSitesDb.dropAll();
     // when using async await in map must wrap in Promise.all
