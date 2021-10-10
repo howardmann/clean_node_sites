@@ -1,14 +1,17 @@
 let chai = require('chai');
 let expect = chai.expect;
 let sitesDb = require('./index')
-let SITES = require('../../db/memory/sites')
+let SITES = require('../../db/memory/sites') // csv seeder
+
 
 describe('sitesDb', () => {
   beforeEach(async () => {
     await sitesDb.dropAll();
-    await SITES.map(el => {
-      return sitesDb.addSite(el)
-    })
+    // when using async await in map must wrap in Promise.all
+    await Promise.all(SITES.map(async el => {
+      let newSite = await sitesDb.addSite(el)
+      return newSite
+    }))
   })
 
   it('dropAll() drops database', async () => {
@@ -36,14 +39,14 @@ describe('sitesDb', () => {
   })
 
   it('findSitesBy(prop, val) finds all sites by property', async () => {
-    let sites = await sitesDb.findSitesBy('state', 'NSW')    
-    let castle_towers = sites.filter(el => el.name === 'Castle Towers')[0]
-    let {id, ...input} = castle_towers
-    let actual = {name: 'Castle Towers', state: 'NSW'}
+    let sites = await sitesDb.findSitesBy('state', 'QLD')    
+    let robina = sites.filter(el => el.name === 'Robina Town Centre')[0]
+    let {id, ...input} = robina
+    let actual = {name: 'Robina Town Centre', state: 'QLD'}
     expect(input).to.eql(actual)
   })
 
-  it('listSitesWithGroups() lists sites with groups name', async () => {
+  it.skip('listSitesWithGroups() lists sites with groups name', async () => {
     let sites = await sitesDb.listSitesWithGroups()
     let {id, ...input} = sites.filter(el => el.name === 'Robina Town Centre')[0]
     let actual = {name: 'Robina Town Centre', state:'QLD', groups: ['QIC']}

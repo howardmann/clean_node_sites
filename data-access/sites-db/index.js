@@ -3,17 +3,19 @@ let {
   findSite,
   findSitesBy,
   addSite,
-  listSitesWithGroups,
+  // listSitesWithGroups,
   dropAll
 }
-= require('./memory/index') // switch out db as required
+// switch out db as required
+// = require('./memory') 
+= require('./pg') 
 
 let SitesDb = {
   listSites,
   findSite,
   findSitesBy,
   addSite,
-  listSitesWithGroups,
+  // listSitesWithGroups,
   dropAll
 }
 
