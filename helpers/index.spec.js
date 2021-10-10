@@ -5,7 +5,7 @@ let {requiredParam, upperCase} = require('./index')
 describe('helpers', () => {
   describe('requiredParam(value, property)', () => {
     it('throws error if value does not exist', async () => {
-      let errorMessage = 'site cannot be null or undefined.'
+      let errorMessage = 'site can not be null or undefined.'
       expect(() => {
         let site = null
         requiredParam(site, 'site')

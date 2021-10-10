@@ -1,5 +1,6 @@
 let validate = require('validate.js')
 
+
 // Helper functiont to transform error messages into error array otherwise return payload
 let validator = (payload, schema) => {
   let result = validate(payload, schema)
