@@ -1,5 +1,5 @@
 let {upperCase} = require('../../helpers')
-let {validateMakeSite} = require('../validator/site')
+let {validateMakeSite} = require('../../validators/site')
 
 let makeSite = function(siteInfo) {
 

@@ -1,4 +1,4 @@
-let requiredParam = require('../../../helpers/requiredParam')
+let requiredParam = require('../../helpers/requiredParam')
 
 let validateMakeGroup = ({name}) => {
   requiredParam(name, 'name')

@@ -1,5 +1,5 @@
 let {upperCase} = require('../../helpers')
-let {validateMakeGroup} = require('../validator/group')
+let {validateMakeGroup} = require('../../validators/group')
 
 let makeGroup = function(groupInfo) {
   let normalize = ({name}) => {
