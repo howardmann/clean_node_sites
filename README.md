@@ -34,7 +34,7 @@ data-access               // think of it as our internal ORM (logic for our use-
     L index.js            // other controllers and drivers rely on this API (findSite, listSites, addSite)
     L index.spec.js       // test APIs. Important to have in order to safely switch out db
     L memory              // in memory
-      L index.js          // expose the memory implementation of findStudent, listStudents, addStudents
+      L index.js          // expose the memory implementation
       L serializer.js     // serializes to DB specific properties
     L pg                  // TODO: Illustrative
   L groups-db             // follows site structure
