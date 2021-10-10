@@ -1,18 +1,14 @@
-let {requiredParam, upperCase} = require('../../helpers')
+let {upperCase} = require('../../helpers')
+let {validateMakeGroup} = require('../validator/group')
 
 let makeGroup = function(groupInfo) {
-  let validate = ({name}) => {
-    requiredParam(name, 'name')
-    return ({name})
-  }
-
   let normalize = ({name}) => {
     return {
       name: upperCase(name)
     }
   }
 
-  const validGroup = validate(groupInfo)
+  const validGroup = validateMakeGroup(groupInfo)
   const normalGroup = normalize(validGroup)
   return normalGroup
 }

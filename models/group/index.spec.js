@@ -10,6 +10,15 @@ describe('makeGroup', () => {
     }).to.throw(errorMessage)
   })
 
+  it('name min 3 characters or more', async () => {
+    let errorMessage = 'name min 3 characters.'
+    expect(() => {
+      makeGroup({
+        name: 'AB'
+      })
+    }).to.throw(errorMessage)
+  })
+
   it('normalises upperCase name', async () => {
     let group = makeGroup({
       name: 'mirvac'

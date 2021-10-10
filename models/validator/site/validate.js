@@ -1,19 +1,4 @@
-let validate = require('validate.js')
-
-// Helper functiont to transform error messages into error array otherwise return payload
-let validator = (payload, schema) => {
-  let result = validate(payload, schema)
-  if (result == undefined) {
-    return payload
-  }
-  let message = []
-  for (var key in result) {
-    message.push(result[key][0])
-  }
-  return {
-    error: message
-  }
-}
+let validator = require('../validatejs/index')
 
 const VALID_STATES = [
   'NSW',
@@ -26,8 +11,7 @@ const VALID_STATES = [
   'NT'
 ]
 
-
-// ^ stops preprending attribute capitalised
+// ^ stops preprending attribute capitalised in message
 let siteSchema = {
   name: {
     presence: {message: '^name cannot be null or undefined.'}, 
@@ -54,11 +38,11 @@ let siteSchema = {
   }
 }
 
-
 let validateMakeSite = (siteInfo) => {
   let result =  validator(siteInfo, siteSchema)
   if (result.error) {
-    throw new Error (result.error[0])
+    let firstErrMsg = result.error[0]
+    throw new Error (firstErrMsg)
   }
   return result  
 }
