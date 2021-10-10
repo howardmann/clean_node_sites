@@ -5,27 +5,14 @@ let listGroupsSites = () => {
     .then(data => data.rows)
 }
 
-// WORKING ON ADD GROUP SITE
 let addGroupSite = (info) => {
   let {site_id, group_id} = info
-  return knex('group_sites')
+  let newGroupSite = {site_id, group_id}
+  return knex('groups_sites')
+    .insert(newGroupSite)
+    .returning('*')
+    .then(result => result[0])    
 }
-// let addSite = async (siteInfo) => {
-//   let newSite = makeSite(siteInfo)
-
-//   // check site name unique
-//   let sitesNameArr = await listSites().then(result => result.map(el => el.name))
-//   let checkSiteNameUnique = sitesNameArr.includes(newSite.name) ? false : true
-//   if (!checkSiteNameUnique) {
-//     throw new Error(`${newSite.name} site name must be unique.`)
-//   }
-
-//   return knex('sites')
-//     .insert(newSite)
-//     .returning('*')
-//     .then(result => result[0])
-// }
-
 
 let dropAll = () => {
   return knex.raw(`
@@ -36,6 +23,6 @@ let dropAll = () => {
 
 module.exports = {
   listGroupsSites,
-  // addGroupSite,
+  addGroupSite,
   dropAll
 }

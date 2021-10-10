@@ -5,14 +5,14 @@ let GROUPS_SITES = require('../../db/memory/groups_sites') // csv seeder
 
 
 describe.only('groupsSitesDb', () => {
-  // beforeEach(async () => {
-  //   await groupsSitesDb.dropAll();
-  //   // when using async await in map must wrap in Promise.all
-  //   await Promise.all(GROUPS_SITES.map(async el => {
-  //     let newGroupSite = await groupsSitesDb.addGroupSite(el)
-  //     return newGroupSite
-  //   }))
-  // })
+  beforeEach(async () => {
+    await groupsSitesDb.dropAll();
+    // when using async await in map must wrap in Promise.all
+    await Promise.all(GROUPS_SITES.map(async el => {
+      let newGroupSite = await groupsSitesDb.addGroupSite(el)
+      return newGroupSite
+    }))
+  })
 
   it('listGroupSites() lists all groupSite pairs', async () => {
     let input = await groupsSitesDb.listGroupsSites()
@@ -30,7 +30,7 @@ describe.only('groupsSitesDb', () => {
 
 
   describe('addGroupSite(info)', async () => {
-    it.only('inserts a groupSite', async () => {
+    it('inserts a groupSite', async () => {
       let groupSite = {
         site_id: 28,
         group_id: 2
