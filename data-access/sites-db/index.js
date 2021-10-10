@@ -3,7 +3,7 @@ let {
   findSite,
   findSitesBy,
   addSite,
-  // listSitesWithGroups,
+  listSitesWithGroups,
   dropAll
 }
 // switch out db as required
@@ -15,7 +15,7 @@ let SitesDb = {
   findSite,
   findSitesBy,
   addSite,
-  // listSitesWithGroups,
+  listSitesWithGroups,
   dropAll
 }
 

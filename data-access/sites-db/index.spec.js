@@ -46,7 +46,7 @@ describe('sitesDb', () => {
     expect(input).to.eql(actual)
   })
 
-  it.skip('listSitesWithGroups() lists sites with groups name', async () => {
+  it('listSitesWithGroups() lists sites with groups name', async () => {
     let sites = await sitesDb.listSitesWithGroups()
     let {id, ...input} = sites.filter(el => el.name === 'Robina Town Centre')[0]
     let actual = {name: 'Robina Town Centre', state:'QLD', groups: ['QIC']}

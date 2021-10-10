@@ -40,21 +40,21 @@ let addSite = async (siteInfo) => {
     .then(result => result[0])
 }
 
-// let listSitesWithGroups = async () => {
-//   // list all sites
-//   let sites = await listSites()
+let listSitesWithGroups = () => {
+  // list all sites with group names aggregated as array
+  return knex.raw(`
+    SELECT Sites.id, Sites.name, Sites.state, array_agg(Groups.name) as groups
+    FROM Sites
+    INNER JOIN Groups_Sites
+    ON Sites.id = Groups_Sites.site_id
+    INNER JOIN Groups
+    ON Groups_Sites.group_id = Groups.id
+    GROUP BY sites.id
+    ORDER BY sites.id
+  `)
+  .then(data => data.rows)  
+}
 
-//   // map through all sites and add group name
-//   let result = await Promise.all(sites.map(async site => {
-//     let site_id = site.id
-//     let groups = await groupsDb.findGroupsbySite(site_id)
-//     let group_name_arr = groups.map(el => el.name)
-
-//     return {...site, groups: group_name_arr}
-//   }))
-  
-//   return result
-// }
 
 let dropAll = () => {
   return knex.raw(`
@@ -67,7 +67,7 @@ module.exports = {
   listSites,
   findSite,
   findSitesBy,
-  // listSitesWithGroups,
+  listSitesWithGroups,
   addSite,
   dropAll
 }
