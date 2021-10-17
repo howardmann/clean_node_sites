@@ -47,13 +47,16 @@ data-access               // think of it as our internal ORM (logic for our use-
 
 ============= OUTER LAYER =====================================================================
 drivers
-  L webserver             // TODO: express web-server
+  L webserver             // express webserver
     L routes
-      L index.js          // TODO: routes paths
-      L sites.js          // TODO: requires our data-access students-db
+      L index.js          // routes paths
+      L sites.js          // requires our data-access sites-db
       L groups.js         // TODO: per above
       L rankings.js       // TODO: 
-    L server.js           // TODO: 
+    L server.js           // express server and boilerplate
+    L server.integrationspec.js // integration test using axios to test live API no mocks
+    L setup
+      L http-setup.js     // test helper for our server to start and close a server on config port
 
 ```
 
