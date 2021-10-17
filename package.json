@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha './**/*.spec.js' --exit",
+    "integration": "mocha './**/*.integrationspec.js' --exit",
     "dev": "nodemon ./drivers/webserver/server.js"
   },
   "repository": {
@@ -22,6 +23,7 @@
     "mocha": "^9.1.2"
   },
   "dependencies": {
+    "axios": "^0.23.0",
     "body-parser": "^1.19.0",
     "date-fns": "^2.25.0",
     "dotenv": "^10.0.0",
