@@ -4,7 +4,8 @@ let {
   findSitesBy,
   addSite,
   listSitesWithGroups,
-  dropAll
+  dropAll,
+  deleteSite
 }
 // switch out db as required
 // = require('./memory') 
@@ -16,7 +17,8 @@ let SitesDb = {
   findSitesBy,
   addSite,
   listSitesWithGroups,
-  dropAll
+  dropAll,
+  deleteSite
 }
 
 module.exports = SitesDb

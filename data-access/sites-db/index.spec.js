@@ -64,6 +64,18 @@ describe('sitesDb', () => {
     expect(input).to.deep.eql(actual)
   })
 
+  it('deleteSite() delete single site by id', async () => {
+    let sites = await sitesDb.listSites()
+    let id = sites[0].id
+
+    await sitesDb.deleteSite(id)    
+
+    let newSites = await sitesDb.listSites()
+    let input = newSites.length
+    let actual = sites.length - 1
+    expect(input).to.eql(actual)
+  })
+
   describe('addSite(siteInfo)', async () => {
     it('inserts a site', async () => {
       let site = {

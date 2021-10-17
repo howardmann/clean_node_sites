@@ -63,11 +63,21 @@ let dropAll = () => {
   `)
 }
 
+let deleteSite = (id) => {
+  return knex('sites')
+    .where('id', id)
+    .del()
+    .returning('*')
+    .then(result => result[0])
+}
+
+
 module.exports = {
   listSites,
   findSite,
   findSitesBy,
   listSitesWithGroups,
   addSite,
-  dropAll
+  dropAll,
+  deleteSite
 }
