@@ -40,6 +40,15 @@ describe('server', () => {
       expect(input).to.eql(actual)
     })
 
+    it('GET sites/:id returns message when not found', async () => {
+      let incorrectId = 4242
+      let res = await axios.get(`/sites/${incorrectId}`)
+      let input = res.data.message
+      let actual = 'Site not found'
+      expect(input).to.eql(actual)
+    })
+
+
     it('GET sites/name=?name= finds sites by name', async () => {
       let res = await axios.get('/sites/name?name=Castle%20Towers')
       let {id, ...input } = res.data[0]
@@ -47,16 +56,27 @@ describe('server', () => {
       expect(input).to.eql(actual)
     })
 
-    it.skip('POST sites creates new site', async () => {
-      let newSite = {
-        name: 'Broadway Shopping Centre',
-        state: 'NSW'
-      }
+    it('POST sites creates single new site and DELETE sites/:id deletes single site', async () => {
+      const SITE_NAME = 'Broadway'
+
+      // Check if broadway exists and delete if it does
+      let siteRes = await axios.get(`/sites/name?name=${SITE_NAME}`)
+      let siteId = siteRes.data && siteRes.data[0] && siteRes.data[0].id ? siteRes.data[0].id : null
+      
+      siteId && await axios.delete(`/sites/${siteId}`)
+
+      // create new site
+      let newSite = {name: SITE_NAME, state: 'NSW'}
       await axios.post('/sites', newSite)
-      let res = await axios.get('/sites/name?name=Broadway%20Shopping%20Centre')
+
+      // check if exists
+      let res = await axios.get(`/sites/name?name=${SITE_NAME}`)
       let {id, ...input} = res.data[0]
+      let actual = newSite
+
       expect(input).to.eql(actual)
       
+      // delete
       await axios.delete(`/sites/${id}`)
     })
   })

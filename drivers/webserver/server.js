@@ -24,7 +24,7 @@ app.use((err, req, res, next) => {
     if (!err.statusCode) {
       err.statusCode = 500
     } // Set 500 server code error if statuscode not set
-    return res.status(err.statusCode).send({
+    return res.status(err.statusCode).json({
       statusCode: err.statusCode,
       message: err.message
     })
