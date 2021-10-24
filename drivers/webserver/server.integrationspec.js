@@ -50,7 +50,7 @@ describe('server', () => {
 
 
     it('GET sites/name=?name= finds sites by name', async () => {
-      let res = await axios.get('/sites/name?name=Castle%20Towers')
+      let res = await axios.get('/sites/name?name=castle%20towers')
       let {id, ...input } = res.data[0]
       let actual = {name: 'Castle Towers', state: 'NSW'}
       expect(input).to.eql(actual)

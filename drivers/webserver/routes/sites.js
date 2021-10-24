@@ -1,4 +1,6 @@
 let sitesDb = require('../../../data-access/sites-db')
+let {upperCase} = require('../../../helpers/index')
+
 
 let sites = module.exports = {}
 
@@ -24,7 +26,9 @@ sites.show = (req, res, next) => {
 }
 
 sites.name = (req, res, next) => {
-  sitesDb.findSitesBy('name', req.query.name)
+  let siteName = upperCase(req.query.name)
+
+  sitesDb.findSitesBy('name', siteName)
     .then(data => {
       if (data.length === 0) {
         return res.send({
