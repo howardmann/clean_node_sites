@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "NODE_ENV=production node ./drivers/webserver/server.js",
     "test": "mocha './**/*.spec.js' --exit",
     "integration": "mocha './**/*.integrationspec.js' --exit",
     "dev": "nodemon ./drivers/webserver/server.js"

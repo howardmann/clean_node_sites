@@ -29,14 +29,14 @@ module.exports = {
       user: config.pg.USER,
       password: config.pg.PASSWORD,
       database: config.pg.DATABASE,
-      port: config.pg.PORT,
+      port: config.pg.PORT || 5432,
       ssl: true
     },
     migrations: {
       directory: __dirname + '/db/pg/migrations'
     },
     seeds: {
-      directory: __dirname + '/db/pg/seeds/production'
+      directory: __dirname + '/db/pg/seeds/development'
     }
   }
 };
