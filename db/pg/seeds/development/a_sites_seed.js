@@ -1,4 +1,5 @@
 const SITES = require('../../../memory/sites')
+const PROD_SITES = SITES.map(el => ({name: el.name, state: el.state}))
 
 exports.seed = async function(knex) {
   await knex.raw('DELETE FROM Sites')
@@ -16,6 +17,11 @@ exports.seed = async function(knex) {
   //   ('Robina Town Centre', 'QLD'),
   //   ('Westpoint', 'NSW')
   // `)
+
+  // for heroku prod we dont specify id
+  // await knex('sites')
+  //   .insert(PROD_SITES)
+
 };
 
 
