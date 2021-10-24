@@ -11,10 +11,15 @@ let listSites = () => {
 }
 
 let findSite = (id) => {
-  return knex.raw(`
-      SELECT * FROM Sites WHERE id='${id}'
-    `)
-    .then(data => data.rows[0])
+  return knex('sites')
+    .where('id',id)
+    .then(data => data[0])
+
+  // RAW SQL
+  // return knex.raw(`
+  //     SELECT * FROM Sites WHERE id='${id}'
+  //   `)
+  //   .then(data => data.rows[0])
 }
 
 let findSitesBy = (prop, val) => {
