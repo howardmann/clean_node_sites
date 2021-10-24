@@ -30,7 +30,9 @@ module.exports = {
       password: config.pg.PASSWORD,
       database: config.pg.DATABASE,
       port: config.pg.PORT || 5432,
-      ssl: true
+      ssl: {
+        rejectUnauthorized: false
+      }
     },
     migrations: {
       directory: __dirname + '/db/pg/migrations'
