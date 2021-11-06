@@ -4,7 +4,7 @@ let usersDb = require('./index')
 let USERS = require('../../db/memory/users') // csv seeder
 let bcrypt = require('bcrypt')
 
-describe.only('usersDb', () => {
+describe('usersDb', () => {
   beforeEach(async () => {
     // Seed sites
     await usersDb.dropAll();

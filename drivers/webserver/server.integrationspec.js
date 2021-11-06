@@ -23,6 +23,38 @@ describe('server', () => {
     expect(input).to.eql(actual)
   })
 
+  describe.only('/auth', () => {
+    it('POST /auth/login valid credentials returns token', async () => {
+      let credentials = {
+        email: 'howie@email.com',
+        password: 'chicken'
+      }
+      let res = await axios.post('/login', credentials)
+      let {message, email} = res.data
+      let input = {message, email}
+      let actual = {
+        message: "Authenticated! Use this token in your Authorization header as Bearer token",
+        email: credentials.email
+      }
+      expect(input).to.eql(actual)
+    })
+
+    it('POST /auth/login invalid credentials forbidden', async () => {
+      let credentials = {
+        email: 'howie@email.com',
+        password: 'fakeChicken'
+      }
+      try {
+        await axios.post('/login', credentials)
+      } catch(err) {
+        let input = err.response.status
+        let actual = 403
+        expect(input).to.eql(actual)
+      }
+    })
+
+  })
+
   describe('/sites', () => {
     it('GET sites/ lists all sites', async () => {
       let res = await axios.get('/sites')
