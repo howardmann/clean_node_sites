@@ -8,4 +8,7 @@ exports.seed = async function (knex) {
   // we use knex helper to insert our memory csv (see below for raw sql)
   await knex('groups')
     .insert(GROUPS)
+
+
+  await knex.raw("SELECT setval('groups_id_seq', max(id)) FROM groups")
 };
