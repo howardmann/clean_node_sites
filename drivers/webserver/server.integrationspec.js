@@ -58,6 +58,80 @@ describe('server', () => {
         expect(input).to.eql(actual)
       }
     })
+  })
+
+  describe('/private', () => {
+    it('GET /private/profile is forbidden for non users', async () => {
+      try {
+        await axios.get('/private/profile')
+      } catch (err) {
+        let input = err.response.status
+        let actual = 403
+        expect(input).to.eql(actual)
+      }
+    })
+
+    it('GET /private/profile returns user profile', async () => {
+      let credentials = {
+        email: 'felix@email.com',
+        password: 'chicken'
+      }
+      let authRes = await axios.post('/login', credentials)
+      let {token} = authRes.data
+
+      let res = await axios.get('/private/profile', {
+        headers: {
+          'authorization': `bearer ${token}`
+        }
+      })
+      let {email} = res.data
+      let input = email
+      let actual = credentials.email
+      expect(input).to.eql(actual)
+    })
+
+    it('GET /private/profile/all returns all user profiles for admin user tokens only', async () => {
+      let credentials = {
+        email: 'howie@email.com',
+        password: 'chicken'
+      }
+      let authRes = await axios.post('/login', credentials)
+      let {
+        token
+      } = authRes.data
+
+
+      let res = await axios.get('/private/profile/all', {
+        headers: {
+          'authorization': `bearer ${token}`
+        }
+      })
+      let input = res.data.length
+      let actual = 2
+      expect(input).to.eql(actual)
+    })
+
+    it('GET /private/profile/all forbidden for non admin user tokens', async () => {
+      let credentials = {
+        email: 'felix@email.com',
+        password: 'chicken'
+      }
+      let authRes = await axios.post('/login', credentials)
+      let { token } = authRes.data
+
+      try {
+        await axios.get('/private/profile/all', {
+          headers: {
+            'authorization': `bearer ${token}`
+          }
+        })
+      } catch(err) {
+        let input = err.response.data.message
+        let actual = 'Admin only'
+        expect(input).to.eql(actual)
+      }
+    })
+
 
   })
 

@@ -10,7 +10,12 @@ describe('usersDb', () => {
     await usersDb.dropAll();
     // when using async await in map must wrap in Promise.all
     await Promise.all(USERS.map(async el => {
-      let newUser = await usersDb.createUser(el)
+      let {email, admin} = el
+      let newUser = await usersDb.createUser({
+        email,
+        password: 'chicken',
+        admin
+      })
       return newUser
     }))
   })
