@@ -2,6 +2,8 @@ let chai = require('chai');
 let expect = chai.expect;
 const axios = require('axios')
 const httpSetup = require('./setup/http-setup')
+const jwt = require('jsonwebtoken')
+const {SECRET_KEY} = require('../../config')
 
 let listener
 
@@ -23,20 +25,24 @@ describe('server', () => {
     expect(input).to.eql(actual)
   })
 
-  describe.only('/auth', () => {
+  describe('/auth', () => {
     it('POST /auth/login valid credentials returns token', async () => {
       let credentials = {
         email: 'howie@email.com',
         password: 'chicken'
       }
       let res = await axios.post('/login', credentials)
-      let {message, email} = res.data
+      let {message, email, token} = res.data
       let input = {message, email}
       let actual = {
         message: "Authenticated! Use this token in your Authorization header as Bearer token",
         email: credentials.email
       }
+      // check message and email
       expect(input).to.eql(actual)
+      // check jwt token is valid and contains email
+      let data = await jwt.verify(token, SECRET_KEY)
+      expect(data.email).to.eql(credentials.email)
     })
 
     it('POST /auth/login invalid credentials forbidden', async () => {

@@ -9,5 +9,6 @@ module.exports = {
     DATABASE: process.env.PG_DATABASE,
     PASSWORD: process.env.PG_PASSWORD,
     PORT: process.env.PG_PORT
-  }
+  },
+  SECRET_KEY: 'jwt_chicken'
 }

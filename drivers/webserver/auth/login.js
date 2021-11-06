@@ -1,4 +1,6 @@
 let {findUserBy} = require('../../../data-access/users-db')
+const jwt = require('jsonwebtoken')
+const {SECRET_KEY} = require('../../../config')
 let bcrypt = require('bcrypt')
 
 let login = async (req, res) => {
@@ -13,21 +15,22 @@ let login = async (req, res) => {
   }
 
   // // Create json webtoken with user email and id
-  // let token = jwt.sign({
-  //   id: user.id, 
-  //   email: user.email
-  // }, SECRET_KEY)
+  let token = jwt.sign({
+    id: user.id, 
+    email: user.email
+  }, SECRET_KEY)
 
   // // Set jwt token in cookie as 'access_token'
-  // res.cookie('access_token', token, {
-  //   // maxAge: 365 * 24 * 60 * 60 * 100, // session only cookie
-  //   httpOnly: true // cannot be modified using XSS or JS
-  // })  
+  res.cookie('access_token', token, {
+    // maxAge: 365 * 24 * 60 * 60 * 100, // session only cookie
+    httpOnly: true // cannot be modified using XSS or JS
+  })  
 
 
   res.status(200).send({
     message: 'Authenticated! Use this token in your Authorization header as Bearer token',
-    email: user.email
+    email: user.email,
+    token
   })
 }
 
