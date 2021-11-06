@@ -4,6 +4,8 @@ const axios = require('axios')
 const httpSetup = require('./setup/http-setup')
 const jwt = require('jsonwebtoken')
 const {SECRET_KEY} = require('../../config')
+const qs = require('qs') // needed for bug with auth0 node.js SDK // https://community.auth0.com/t/when-oauth-token-is-called-you-cant-access/50785/3
+
 
 let listener
 
@@ -131,8 +133,6 @@ describe('server', () => {
         expect(input).to.eql(actual)
       }
     })
-
-
   })
 
   describe('/sites', () => {
@@ -193,6 +193,51 @@ describe('server', () => {
     })
   })
 
+  describe('auth0', () => {
+    it('GET /auth0/private is forbidden for non users', async () => {
+      try {
+        await axios.get('/auth0/private')
+      } catch (err) {
+        let input = err.response.status
+        let actual = 401
+        expect(input).to.eql(actual)
+      }
+    })
+
+    it('GET /auth0/private returns message for valid user token', async () => {
+      let data = {
+        grant_type: 'password',
+        username: 'howardmann27@gmail.com',
+        password: 'chicken',
+        audience: 'https://expressleaderboard/api',
+        scope: 'read:sites',
+        client_id: 'RKBaqJ051y3FKua7G8TB31PNr88izYxV',
+        client_secret: 'iSX2a1Kgip6h2c3WKVdUU5nEsraJCaEiFEH7YPyzrJeu952L2aE0vrtX9A4JH1lF'
+      }
+
+      let options = {
+        method: 'POST',
+        url: 'https://dev-kyl9on70.us.auth0.com/oauth/token',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        data: qs.stringify(data)
+      };
+
+      let authRes = await axios.request(options)
+      let token = authRes.data.access_token
+
+      let res = await axios.get('/auth0/private', {
+        headers: {
+          'authorization': `Bearer ${token}`
+        }
+      })
+      let input = res.data.message
+      let actual = 'private endpoint. must be authenticated to see this.'
+      expect(input).to.eql(actual)
+    })
+
+})
 
 
 

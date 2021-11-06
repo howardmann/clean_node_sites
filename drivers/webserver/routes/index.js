@@ -19,4 +19,16 @@ router
   .get('/private/profile', auth.verifyToken, profiles.show)
   .get('/private/profile/all', auth.verifyToken, auth.adminRequired, profiles.index)
 
+
+// example using auth0
+const auth0 = require('../auth0')
+router
+  .get('/auth0/private', auth0.checkJwt, (req, res) => {
+    res.json({
+      message: 'private endpoint. must be authenticated to see this.'
+    })
+  })
+
+
+
 module.exports = router
