@@ -4,7 +4,6 @@ const axios = require('axios')
 const httpSetup = require('./setup/http-setup')
 const jwt = require('jsonwebtoken')
 const {SECRET_KEY} = require('../../config')
-const qs = require('qs') // needed for bug with auth0 node.js SDK // https://community.auth0.com/t/when-oauth-token-is-called-you-cant-access/50785/3
 
 
 let listener
@@ -205,7 +204,7 @@ describe('server', () => {
       let actual = {scope: 'read:sites', token_type: 'Bearer'}
       expect(input).to.eql(actual)
 
-    })
+    }).timeout(5000)
 
     it('GET /auth0/private is forbidden for non users', async () => {
       try {
@@ -233,7 +232,7 @@ describe('server', () => {
       let input = res.data.message
       let actual = 'private endpoint. must be authenticated to see this.'
       expect(input).to.eql(actual)
-    })
+    }).timeout(5000)
 
 })
 

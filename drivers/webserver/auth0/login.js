@@ -16,16 +16,7 @@ let login = async (req, res) => {
     client_secret: CLIENT_SECRET
   }
 
-  let options = {
-    method: 'POST',
-    url: `https://${DOMAIN}/oauth/token`,
-    headers: {
-      'content-type': 'application/x-www-form-urlencoded'
-    },
-    data: qs.stringify(data)
-  };
-
-  let resp = await axios.request(options)
+  let resp = await axios.post(`https://${DOMAIN}/oauth/token`, data)
   return res.send(resp.data)
 }
 
