@@ -193,7 +193,7 @@ describe('server', () => {
   })
 
   describe('auth0', () => {
-    it('POST /auth0/login returns 403 if invalid email or password', async () => {
+    it.only('POST /auth0/login returns 403 if invalid email or password', async () => {
       let credentials = {
         email: 'howieinvalid@email.com',
         password: 'chicken'
