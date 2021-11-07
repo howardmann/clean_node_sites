@@ -34,7 +34,8 @@ router
       message: 'private endpoint. must be authenticated to see this.'
     })
   })  
-  .get('/auth0/private/sites', auth0.checkJwt, claimIncludes('https://expressleaderboard/api/roles', 'admin'), sites.index) 
+  // .get('/auth0/private/sites', auth0.checkJwt, claimIncludes('https://expressleaderboard/api/roles', 'admin'), sites.index) 
+  .get('/auth0/private/sites', auth0.checkJwt, auth0.adminRequired, sites.index)
   // claimIncludes sucks is an auth0 config thing. must create a custom rule in auth0 with the namespace https://expressleaderboard/api/roles
   // https://manage.auth0.com/dashboard/us/dev-kyl9on70/rules/new
 
