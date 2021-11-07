@@ -193,19 +193,6 @@ describe('server', () => {
   })
 
   describe('auth0', () => {
-    it('POST /auth0/login valid credentials to auth0 returns token', async() => {
-      let credentials = {
-        email: 'howardmann27@gmail.com',
-        password: 'chicken'
-      }
-      let res = await axios.post('/auth0/login', credentials)
-      let {token_type, scope} = res.data
-      let input = {scope, token_type}
-      let actual = {scope: 'read:sites', token_type: 'Bearer'}
-      expect(input).to.eql(actual)
-
-    }).timeout(5000)
-
     it('GET /auth0/private is forbidden for non users', async () => {
       try {
         await axios.get('/auth0/private')
@@ -233,6 +220,47 @@ describe('server', () => {
       let actual = 'private endpoint. must be authenticated to see this.'
       expect(input).to.eql(actual)
     }).timeout(5000)
+
+    it('GET /auth0/private/sites valid for users with admin role', async () => {
+      let credentials = {
+        email: 'howardmann27@gmail.com',
+        password: 'chicken'
+      }
+      let authRes = await axios.post('/auth0/login', credentials)
+      let token = authRes.data.access_token
+
+      let res = await axios.get('/auth0/private/sites', {
+        headers: {
+          'authorization': `Bearer ${token}`
+        }
+      })
+      let input = res.data.length
+      let actual = 48
+      expect(input).to.eql(actual)
+    }).timeout(5000)
+
+    it('GET /auth0/private/sites forbidden for users without admin role', async () => {
+      let credentials = {
+        email: 'howardmann27+auth0@gmail.com',
+        password: 'chicken'
+      }
+      let authRes = await axios.post('/auth0/login', credentials)
+      let token = authRes.data.access_token
+
+      try {
+        await axios.get('/auth0/private/sites', {
+          headers: {
+            'authorization': `Bearer ${token}`
+          }
+        })
+      } catch(err) {
+        let input = err.response.status
+        let actual = 401
+        expect(input).to.eql(actual)
+      }
+    }).timeout(5000)
+
+
 
 })
 
