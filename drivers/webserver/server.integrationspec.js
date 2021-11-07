@@ -194,6 +194,19 @@ describe('server', () => {
   })
 
   describe('auth0', () => {
+    it('POST /auth0/login valid credentials to auth0 returns token', async() => {
+      let credentials = {
+        email: 'howardmann27@gmail.com',
+        password: 'chicken'
+      }
+      let res = await axios.post('/auth0/login', credentials)
+      let {token_type, scope} = res.data
+      let input = {scope, token_type}
+      let actual = {scope: 'read:sites', token_type: 'Bearer'}
+      expect(input).to.eql(actual)
+
+    })
+
     it('GET /auth0/private is forbidden for non users', async () => {
       try {
         await axios.get('/auth0/private')
@@ -205,26 +218,11 @@ describe('server', () => {
     })
 
     it('GET /auth0/private returns message for valid user token', async () => {
-      let data = {
-        grant_type: 'password',
-        username: 'howardmann27@gmail.com',
-        password: 'chicken',
-        audience: 'https://expressleaderboard/api',
-        scope: 'read:sites',
-        client_id: 'RKBaqJ051y3FKua7G8TB31PNr88izYxV',
-        client_secret: 'iSX2a1Kgip6h2c3WKVdUU5nEsraJCaEiFEH7YPyzrJeu952L2aE0vrtX9A4JH1lF'
+      let credentials = {
+        email: 'howardmann27@gmail.com',
+        password: 'chicken'
       }
-
-      let options = {
-        method: 'POST',
-        url: 'https://dev-kyl9on70.us.auth0.com/oauth/token',
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded'
-        },
-        data: qs.stringify(data)
-      };
-
-      let authRes = await axios.request(options)
+      let authRes = await axios.post('/auth0/login', credentials)
       let token = authRes.data.access_token
 
       let res = await axios.get('/auth0/private', {

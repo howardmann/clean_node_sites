@@ -8,6 +8,9 @@ const profiles = require('./profiles')
 router
   .post('/login', auth.login)
 
+
+  
+
 router
   .get('/sites', sites.index)
   .get('/sites/name', sites.name)
@@ -28,6 +31,8 @@ router
       message: 'private endpoint. must be authenticated to see this.'
     })
   })
+  // todo login to get token using auth0
+  .post('/auth0/login', auth0.login)
 
 
 

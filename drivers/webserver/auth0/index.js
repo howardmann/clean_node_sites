@@ -1,10 +1,7 @@
-const {auth} = require('express-oauth2-jwt-bearer')
-
-const checkJwt = auth({
-  audience: `https://expressleaderboard/api`,
-  issuerBaseURL: `https://dev-kyl9on70.us.auth0.com/`
-})
+let checkJwt = require('./checkJwt')
+let login = require('./login')
 
 module.exports = {
-  checkJwt
+  checkJwt,
+  login
 }

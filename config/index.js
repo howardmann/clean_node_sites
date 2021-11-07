@@ -10,5 +10,11 @@ module.exports = {
     PASSWORD: process.env.PG_PASSWORD,
     PORT: process.env.PG_PORT
   },
-  SECRET_KEY: 'jwt_chicken'
+  SECRET_KEY: 'jwt_chicken',
+  auth0: {
+    AUDIENCE: process.env.AUTH0_AUDIENCE,
+    CLIENT_ID: process.env.AUTH0_CLIENT_ID,
+    CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
+    DOMAIN: process.env.AUTH0_DOMAIN 
+  }
 }
