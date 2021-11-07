@@ -193,6 +193,20 @@ describe('server', () => {
   })
 
   describe('auth0', () => {
+    it('POST /auth0/login returns 403 if invalid email or password', async () => {
+      let credentials = {
+        email: 'howiem@email.com',
+        password: 'chicken'
+      }
+      try {
+        await axios.post('/auth0/login', credentials)
+      } catch(err) {
+        let input = err.response.data.message
+        let actual = "Request failed with status code 403"
+        expect(input).to.eql(actual)
+      }
+    }).timeout(5000)
+
     it('GET /auth0/private is forbidden for non users', async () => {
       try {
         await axios.get('/auth0/private')
