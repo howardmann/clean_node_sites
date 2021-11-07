@@ -195,14 +195,14 @@ describe('server', () => {
   describe('auth0', () => {
     it('POST /auth0/login returns 403 if invalid email or password', async () => {
       let credentials = {
-        email: 'howiem@email.com',
+        email: 'howieinvalid@email.com',
         password: 'chicken'
       }
       try {
         await axios.post('/auth0/login', credentials)
       } catch(err) {
-        let input = err.response.data.message
-        let actual = "Request failed with status code 403"
+        let input = err.response.status
+        let actual = 403
         expect(input).to.eql(actual)
       }
     }).timeout(5000)

@@ -2,7 +2,7 @@ const {auth0} = require('../../../config')
 const {AUDIENCE, CLIENT_ID, CLIENT_SECRET, DOMAIN} = auth0
 const axios = require('axios')
 
-let login = async (req, res, next) => {
+let login = async (req, res) => {
   let {email, password} = req.body
 
   let data = {
@@ -17,7 +17,7 @@ let login = async (req, res, next) => {
     let resp = await axios.post(`https://${DOMAIN}/oauth/token`, data)
     res.send(resp.data)
   } catch(err) {
-    next(err)
+    res.status(err.response.status).send(err.response.data)
   }
 }
 
